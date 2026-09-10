@@ -1,0 +1,33 @@
+# -*- Mode: Makefile; -*-
+CC=gcc
+CFLAGS= -Wall -lmpi
+OPENMPFLAGS=-fopenmp
+LDFLAGS= -Wl,-rpath,/home/bmichalowicz/OSHMEM-MPI-take-2/Binaries/lib -L/home/bmichalowicz/OSHMEM-MPI-take-2/Binaries/lib -loshmpi -lmpi
+BSPMM_COMMON_SRC=bspmm_common.c
+BINS=bspmm_single
+BINS+=bspmm_multiple
+BINS+=bspmm_multiple_nwins
+BINS+=bspmm_single_debug
+
+all: $(BINS)
+
+original: og_bspmm_single_modified.c $(BSPMM_COMMON_SRC)
+	mpicc $(LDFLAGS) $(CFLAGS) -O3 $^ -o $@
+
+bspmm_single: bspmm_single_modified.c $(BSPMM_COMMON_SRC)
+	$(CC) $(LDFLAGS) $(CFLAGS) -O3 $^ -o $@
+
+debug: bspmm_single_debug
+
+bspmm_single_debug:  bspmm_single_modified.c $(BSPMM_COMMON_SRC)
+	$(CC) $(LDFLAGS) $(CFLAGS) -g3 -D DEBUG $^ -o $@
+
+bspmm_multiple: bspmm_multiple.c $(BSPMM_COMMON_SRC)
+	$(CC) $(LDFLAGS) $(CFLAGS) $(OPENMPFLAGS) $^ -o $@
+
+bspmm_multiple_nwins: bspmm_multiple_nwins.c $(BSPMM_COMMON_SRC)
+	$(CC) $(LDFLAGS) $(CFLAGS) $(OPENMPFLAGS) $^ -o $@
+
+clean:
+	rm -f $(BINS)
+

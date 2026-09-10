@@ -1,0 +1,29 @@
+# ---------------------------------------------------------------------------
+# Generated pipeline output (ClangIR -> OpenSHMEM-MLIR -> LLVM IR -> binary).
+# Every one of these directories is reproducible with the build_*.sh scripts.
+# ---------------------------------------------------------------------------
+build/
+build-*/
+val-*/
+tmlqcd/ir/
+tmlqcd/realbuild/
+
+# Object code / IR / binaries anywhere
+*.o
+*.a
+*.so
+*.ll
+*.bc
+*.cir
+*.mlir
+
+# Logs and run output
+*.log
+core.*
+*.err
+*.out.[0-9]*
+
+# Editor / OS noise
+.vscode/
+.DS_Store
+*.swp
